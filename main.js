@@ -6,11 +6,6 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-// SHADE ON EARTH OBJECT A IT ORBITS THE SUN OBJECT
-var sunLight = new THREE.DirectionalLight(0xffffff, 1);
-sunLight.position.set(0, 0, 0);
-scene.add(sunLight);
-
 // SUN OBJECT POSITIONING
 var sunGeometry = new THREE.SphereGeometry(10, 32, 32);
 var sunMaterial = new THREE.MeshBasicMaterial({
@@ -21,7 +16,7 @@ var sun = new THREE.Mesh(sunGeometry, sunMaterial);
 sun.position.set(0, 0, 0)
 scene.add(sun);
 
-// EARTH OBJECT POSITIONING 
+// EARTH OBJECT
 var earthGeometry = new THREE.SphereGeometry(4, 32, 32);
 var earthTexture = new THREE.TextureLoader().load('earth.png');
 var earthNormalMap = new THREE.TextureLoader().load('earth_normal_map.jpeg');
@@ -37,6 +32,11 @@ earth.position.set(distanceFromSun, 0, 0);
 scene.add(earth);
 
 camera.position.z = 50;
+
+// SHADE ON EARTH OBJECT A IT ORBITS THE SUN OBJECT
+var sunLight = new THREE.DirectionalLight(0xffffff, 1);
+sunLight.position.set(-distanceFromSun, 0, 0);
+scene.add(sunLight);
 
 function animate() {
     requestAnimationFrame(animate);
