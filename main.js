@@ -6,6 +6,12 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
+// SHADE ON EARTH OBJECT A IT ORBITS THE SUN OBJECT
+var sunLight = new THREE.DirectionalLight(0xffffff, 1);
+sunLight.position.set(0, 0, 0);
+scene.add(sunLight);
+
+// SUN OBJECT POSITIONING
 var sunGeometry = new THREE.SphereGeometry(10, 32, 32);
 var sunMaterial = new THREE.MeshBasicMaterial({
     color: 0xffff00,
@@ -15,9 +21,15 @@ var sun = new THREE.Mesh(sunGeometry, sunMaterial);
 sun.position.set(0, 0, 0)
 scene.add(sun);
 
+// EARTH OBJECT POSITIONING 
 var earthGeometry = new THREE.SphereGeometry(4, 32, 32);
 var earthTexture = new THREE.TextureLoader().load('earth.png');
-var earthMaterial = new THREE.MeshBasicMaterial({ map: earthTexture });
+var earthNormalMap = new THREE.TextureLoader().load('earth_normal_map.jpeg');
+var earthMaterial = new THREE.MeshPhongMaterial({ 
+    map: earthTexture, 
+    normalMap: earthNormalMap,
+    shininess: 10
+});
 var earth = new THREE.Mesh(earthGeometry, earthMaterial);
 
 var distanceFromSun = 40;
@@ -29,14 +41,14 @@ camera.position.z = 50;
 function animate() {
     requestAnimationFrame(animate);
 
-    // Update the Earth's position to simulate orbiting around the Sun
-    var earthOrbitSpeed = 0.001; // Adjust the speed as needed
+    
+    var earthOrbitSpeed = 0.001; 
     var angle = Date.now() * earthOrbitSpeed;
     earth.position.x = distanceFromSun * Math.cos(angle);
     earth.position.z = distanceFromSun * Math.sin(angle);
 
-    earth.rotation.y += 0.01; // Rotate the Earth on its axis
-    sun.rotation.y += 0.01; // Rotate the Sun on its axis
+    earth.rotation.y += 0.01;
+    sun.rotation.y += 0.01; 
 
     renderer.render(scene, camera);
 }
