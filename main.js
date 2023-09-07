@@ -16,7 +16,7 @@ var sun = new THREE.Mesh(sunGeometry, sunMaterial);
 sun.position.set(0, 0, 0)
 scene.add(sun);
 
-// EARTH OBJECT
+// EARTH OBJECT POSITIONING
 var earthGeometry = new THREE.SphereGeometry(4, 32, 32);
 var earthTexture = new THREE.TextureLoader().load('earth.png');
 var earthNormalMap = new THREE.TextureLoader().load('earth_normal_map.jpeg');
@@ -38,8 +38,47 @@ var sunLight = new THREE.DirectionalLight(0xffffff, 1);
 sunLight.position.set(-distanceFromSun, 0, 0);
 scene.add(sunLight);
 
+// INTERACTION 
+var earthRotating = true; // Flag to control Earth rotation
+
+// Add a click event listener to stop Earth rotation when clicked
+earth.addEventListener('click', function () {
+    earthRotating = !earthRotating; // Toggle rotation
+});
+
+var mouseX = 0;
+var isDragging = false;
+
+// Add mousemove event listener to allow dragging of the Earth
+renderer.domElement.addEventListener('mousemove', function (event) {
+    if (isDragging) {
+        // Calculate the mouse movement
+        var deltaX = (event.clientX - mouseX) / 100; // Adjust the sensitivity as needed
+        // Update the Earth's position based on mouse movement
+        earth.rotation.y += deltaX;
+        mouseX = event.clientX;
+    }
+});
+
+// Add mousedown event listener to start dragging
+renderer.domElement.addEventListener('mousedown', function (event) {
+    isDragging = true;
+    mouseX = event.clientX;
+});
+
+// Add mouseup event listener to stop dragging
+renderer.domElement.addEventListener('mouseup', function () {
+    isDragging = false;
+});
+
+
 function animate() {
     requestAnimationFrame(animate);
+
+    if (earthRotating) {
+        // Continue Earth's rotation
+        earth.rotation.y += 0.01;
+    }
 
     
     var earthOrbitSpeed = 0.001; 
@@ -49,6 +88,7 @@ function animate() {
 
     earth.rotation.y += 0.01;
     sun.rotation.y += 0.01; 
+
 
     renderer.render(scene, camera);
 }
