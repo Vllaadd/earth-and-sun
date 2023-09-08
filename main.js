@@ -19,11 +19,8 @@ scene.add(sun);
 // EARTH OBJECT POSITIONING
 var earthGeometry = new THREE.SphereGeometry(4, 32, 32);
 var earthTexture = new THREE.TextureLoader().load('earth.png');
-var earthNormalMap = new THREE.TextureLoader().load('earth_normal_map.jpeg');
-var earthMaterial = new THREE.MeshPhongMaterial({ 
-    map: earthTexture, 
-    normalMap: earthNormalMap,
-    shininess: 10
+var earthMaterial = new THREE.MeshBasicMaterial({ 
+    map: earthTexture
 });
 var earth = new THREE.Mesh(earthGeometry, earthMaterial);
 
@@ -32,11 +29,6 @@ earth.position.set(distanceFromSun, 0, 0);
 scene.add(earth);
 
 camera.position.z = 50;
-
-// SHADE ON EARTH OBJECT A IT ORBITS THE SUN OBJECT
-var sunLight = new THREE.DirectionalLight(0xffffff, 1);
-sunLight.position.set(-distanceFromSun, 0, 0);
-scene.add(sunLight);
 
 // INTERACTION 
 var earthRotating = true; // Flag to control Earth rotation
