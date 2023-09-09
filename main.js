@@ -4,7 +4,17 @@ var camera = new THREE.PerspectiveCamera(125, window.innerWidth / window.innerHe
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
+//BACKGROUND
+var backgroundImageTexture = new THREE.TextureLoader().load('./files/milky-way.jpg');
+var backgroundImageMaterial = new THREE.MeshBasicMaterial({
+    map: backgroundImageTexture
+})
+var backgroundImageGeometry = new THREE.PlaneGeometry(200, 200);
+var backgroundImage = new THREE.Mesh(backgroundImageGeometry, backgroundImageMaterial);
+backgroundImage.position.z = -1000;
+scene.add(backgroundImage);
 
 // SUN OBJECT POSITIONING
 var sunGeometry = new THREE.SphereGeometry(10, 32, 32);
@@ -18,7 +28,7 @@ scene.add(sun);
 
 // EARTH OBJECT POSITIONING
 var earthGeometry = new THREE.SphereGeometry(4, 32, 32);
-var earthTexture = new THREE.TextureLoader().load('./files/earth.png');
+var earthTexture = new THREE.TextureLoader().load('./files/earth.jpeg');
 var earthMaterial = new THREE.MeshBasicMaterial({ 
     map: earthTexture
 });
