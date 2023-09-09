@@ -5,8 +5,6 @@ var camera = new THREE.PerspectiveCamera(125, window.innerWidth / window.innerHe
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 
-var container = document.querySelector('.container');
-container.appendChild(renderer.domElement);
 
 // SUN OBJECT POSITIONING
 var sunGeometry = new THREE.SphereGeometry(10, 32, 32);
