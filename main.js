@@ -4,13 +4,15 @@ var camera = new THREE.PerspectiveCamera(125, window.innerWidth / window.innerHe
 
 var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+
+var container = document.querySelector('.container');
+container.appendChild(renderer.domElement);
 
 // SUN OBJECT POSITIONING
 var sunGeometry = new THREE.SphereGeometry(10, 32, 32);
+var sunTexture = new THREE.TextureLoader().load('./files/sun.jpeg');
 var sunMaterial = new THREE.MeshBasicMaterial({
-    color: 0xffff00,
-    emissive: 0xFFD700 
+    map: sunTexture
 });
 var sun = new THREE.Mesh(sunGeometry, sunMaterial);
 sun.position.set(0, 0, 0)
@@ -18,7 +20,7 @@ scene.add(sun);
 
 // EARTH OBJECT POSITIONING
 var earthGeometry = new THREE.SphereGeometry(4, 32, 32);
-var earthTexture = new THREE.TextureLoader().load('earth.png');
+var earthTexture = new THREE.TextureLoader().load('./files/earth.png');
 var earthMaterial = new THREE.MeshBasicMaterial({ 
     map: earthTexture
 });
