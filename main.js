@@ -11,9 +11,9 @@ var backgroundImageTexture = new THREE.TextureLoader().load('./files/milky-way.j
 var backgroundImageMaterial = new THREE.MeshBasicMaterial({
     map: backgroundImageTexture
 })
-var backgroundImageGeometry = new THREE.PlaneGeometry(200, 200);
+var backgroundImageGeometry = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight, 0.1, 1000);
 var backgroundImage = new THREE.Mesh(backgroundImageGeometry, backgroundImageMaterial);
-backgroundImage.position.z = -1000;
+backgroundImage.position.z = -0.01;
 scene.add(backgroundImage);
 
 // SUN OBJECT POSITIONING
