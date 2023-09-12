@@ -48,7 +48,7 @@ var moonTexture = new THREE.TextureLoader().load('./files/moon.jpeg');
 var moonMaterial = new THREE.MeshBasicMaterial({
     map: moonTexture
 })
-var moon = new THREE.Mesh(moonGeometry, moonMaterial)
+var moon = new THREE.Mesh(moonGeometry, moonMaterial);
 
 var distanceFromEarth = 10;
 moon.position.set(distanceFromEarth, 0, -10);
@@ -112,7 +112,6 @@ function animate() {
 
     moon.position.x = earth.position.x + moonX;
     moon.position.z = earth.position.z + moonZ;
-
 
     if (earth.rotation.y <= 0.01) {
         sun.rotation.y += 0.01;
