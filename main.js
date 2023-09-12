@@ -6,14 +6,18 @@ var renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-//BACKGROUND
-var backgroundImageTexture = new THREE.TextureLoader().load('./files/milky-way.jpg');
+//BACKGROUND IMAGE
+var backgroundWidth = window.innerWidth;
+var backgroundHeight = window.innerHeight;
+var backgroundImageGeometry = new THREE.PlaneGeometry(backgroundWidth, backgroundHeight);
+
+var backgroundImageTexture = new THREE.TextureLoader().load('./files/milky-way.jpeg');
 var backgroundImageMaterial = new THREE.MeshBasicMaterial({
     map: backgroundImageTexture
 })
-var backgroundImageGeometry = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight, 0.1, 1000);
+
 var backgroundImage = new THREE.Mesh(backgroundImageGeometry, backgroundImageMaterial);
-backgroundImage.position.z = -0.01;
+backgroundImage.position.z = -130;
 scene.add(backgroundImage);
 
 // SUN OBJECT POSITIONING
@@ -29,16 +33,28 @@ scene.add(sun);
 // EARTH OBJECT POSITIONING
 var earthGeometry = new THREE.SphereGeometry(4, 32, 32);
 var earthTexture = new THREE.TextureLoader().load('./files/earth.jpeg');
-var earthMaterial = new THREE.MeshBasicMaterial({ 
+var earthMaterial = new THREE.MeshBasicMaterial({
     map: earthTexture
 });
 var earth = new THREE.Mesh(earthGeometry, earthMaterial);
 
-var distanceFromSun = 40;
-earth.position.set(distanceFromSun, 0, 0);
+var distanceFromSun = 30;
+earth.position.set(distanceFromSun, 0, -10);
 scene.add(earth);
 
-camera.position.z = 50;
+//MOON OBJECT POSITIONING 
+var moonGeometry = new THREE.SphereGeometry(2, 32, 32);
+var moonTexture = new THREE.TextureLoader().load('./files/moon.jpeg');
+var moonMaterial = new THREE.MeshBasicMaterial({
+    map: moonTexture
+})
+var moon = new THREE.Mesh(moonGeometry, moonMaterial)
+
+var distanceFromEarth = 10;
+moon.position.set(distanceFromEarth, 0, -10);
+scene.add(moon);
+
+camera.position.z = 40;
 
 // INTERACTION 
 var earthRotating = true; // Flag to control Earth rotation
@@ -82,14 +98,26 @@ function animate() {
         earth.rotation.y += 0.01;
     }
 
-    
-    var earthOrbitSpeed = 0.001; 
+    sun.rotation.y += 0.01;
+
+    var earthOrbitSpeed = 0.001;
     var angle = Date.now() * earthOrbitSpeed;
     earth.position.x = distanceFromSun * Math.cos(angle);
     earth.position.z = distanceFromSun * Math.sin(angle);
 
-    earth.rotation.y += 0.01;
-    sun.rotation.y += 0.01; 
+    var moonOrbitSpeed = 0.004;
+    var moonAngle = Date.now() * moonOrbitSpeed;
+    var moonX = distanceFromEarth * Math.cos(moonAngle);
+    var moonZ = distanceFromEarth * Math.sin(moonAngle);
+
+    moon.position.x = earth.position.x + moonX;
+    moon.position.z = earth.position.z + moonZ;
+
+
+    if (earth.rotation.y <= 0.01) {
+        sun.rotation.y += 0.01;
+    }
+
 
 
     renderer.render(scene, camera);
