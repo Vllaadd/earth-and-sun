@@ -20,7 +20,7 @@ var backgroundImage = new THREE.Mesh(backgroundImageGeometry, backgroundImageMat
 backgroundImage.position.z = -130;
 scene.add(backgroundImage);
 
-// SUN OBJECT POSITIONING
+// SUN
 var sunGeometry = new THREE.SphereGeometry(10, 32, 32);
 var sunTexture = new THREE.TextureLoader().load('./files/sun.jpeg');
 var sunMaterial = new THREE.MeshBasicMaterial({
@@ -30,7 +30,7 @@ var sun = new THREE.Mesh(sunGeometry, sunMaterial);
 sun.position.set(0, 0, 0)
 scene.add(sun);
 
-// EARTH OBJECT POSITIONING
+// EARTH 
 var earthGeometry = new THREE.SphereGeometry(4, 32, 32);
 var earthTexture = new THREE.TextureLoader().load('./files/earth.jpeg');
 var earthMaterial = new THREE.MeshBasicMaterial({
@@ -38,11 +38,11 @@ var earthMaterial = new THREE.MeshBasicMaterial({
 });
 var earth = new THREE.Mesh(earthGeometry, earthMaterial);
 
-var distanceFromSun = 30;
+var distanceFromSun = 30; 
 earth.position.set(distanceFromSun, 0, -10);
 scene.add(earth);
 
-//MOON OBJECT POSITIONING 
+//MOON 
 var moonGeometry = new THREE.SphereGeometry(2, 32, 32);
 var moonTexture = new THREE.TextureLoader().load('./files/moon.jpeg');
 var moonMaterial = new THREE.MeshBasicMaterial({
@@ -54,12 +54,26 @@ var distanceFromEarth = 10;
 moon.position.set(distanceFromEarth, 0, -10);
 scene.add(moon);
 
+
+// MERCURY 
+var mercuryGeometry = new THREE.SphereGeometry(6, 62, 62);
+var mercuryTexture = new THREE.TextureLoader().load('./files/mercury.jpeg');
+var mercuryMaterial = new THREE.MeshBasicMaterial({
+    map: mercuryTexture
+});
+var mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
+
+var mercuryToSun = 50; 
+mercury.position.set(mercuryToSun, 0, -10);
+scene.add(earth);
+
+
 camera.position.z = 40;
 
 // STOP THE ROTATION & ENABLE DRAGGING 
 var rotationEnabled = true;
-var mouseX = 0;
 var isDragging = false;
+var mouseX = 0;
 
 document.body.addEventListener('keydown', function (event) {
     if(event.key === ' '){
@@ -69,14 +83,15 @@ document.body.addEventListener('keydown', function (event) {
 });
 
 renderer.domElement.addEventListener('mousemove', function (event) {
-    if (!rotationEnabled && isDragging) {
+    // if (!rotationEnabled) {
+        isDragging = true;
         // Calculate the mouse movement
         var deltaX = (event.clientX - mouseX) / 100; // Adjust the sensitivity as needed
         // Update the Earth's position based on mouse movement
         earth.rotation.y += deltaX;
         mouseX = event.clientX;
     }
-});
+);
 
 // Add mouseup event listener to stop dragging
 renderer.domElement.addEventListener('mouseup', function () {
