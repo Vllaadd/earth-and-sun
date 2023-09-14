@@ -56,16 +56,16 @@ scene.add(moon);
 
 
 // MERCURY 
-var mercuryGeometry = new THREE.SphereGeometry(6, 62, 62);
+var mercuryGeometry = new THREE.SphereGeometry(4, 32, 32);
 var mercuryTexture = new THREE.TextureLoader().load('./files/mercury.jpeg');
 var mercuryMaterial = new THREE.MeshBasicMaterial({
     map: mercuryTexture
 });
 var mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
 
-var mercuryToSun = 50; 
-mercury.position.set(mercuryToSun, 0, -10);
-scene.add(earth);
+var mercuryToSun = 20; 
+mercury.position.set(mercuryToSun, 0, -2);
+scene.add(mercury);
 
 
 camera.position.z = 40;
@@ -128,6 +128,15 @@ function animate() {
 
         moon.position.x = earth.position.x + moonX;
         moon.position.z = earth.position.z + moonZ;
+
+// MERCURY ROTATION
+var mercuryOrbitSpeed = 0.001;
+var mercuryAngle = Date.now() * mercuryOrbitSpeed;
+mercury.position.x = mercuryToSun * Math.cos(angle);
+mercury.position.z = mercuryToSun * Math.sin(angle);
+
+
+
 
         // Render the scene
         renderer.render(scene, camera);
