@@ -38,7 +38,7 @@ var earthMaterial = new THREE.MeshBasicMaterial({
 });
 var earth = new THREE.Mesh(earthGeometry, earthMaterial);
 
-var distanceFromSun = 30; 
+var distanceFromSun = 30;
 earth.position.set(distanceFromSun, 0, -10);
 scene.add(earth);
 
@@ -63,7 +63,7 @@ var mercuryMaterial = new THREE.MeshBasicMaterial({
 });
 var mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
 
-var mercuryToSun = 20; 
+var mercuryToSun = 20;
 mercury.position.set(mercuryToSun, 0, -2);
 scene.add(mercury);
 
@@ -76,7 +76,7 @@ var isDragging = false;
 var mouseX = 0;
 
 document.body.addEventListener('keydown', function (event) {
-    if(event.key === ' '){
+    if (event.key === ' ') {
         rotationEnabled = !rotationEnabled;
         isDragging = !isDragging;
     }
@@ -84,13 +84,13 @@ document.body.addEventListener('keydown', function (event) {
 
 renderer.domElement.addEventListener('mousemove', function (event) {
     // if (!rotationEnabled) {
-        isDragging = true;
-        // Calculate the mouse movement
-        var deltaX = (event.clientX - mouseX) / 100; // Adjust the sensitivity as needed
-        // Update the Earth's position based on mouse movement
-        earth.rotation.y += deltaX;
-        mouseX = event.clientX;
-    }
+    isDragging = true;
+    // Calculate the mouse movement
+    var deltaX = (event.clientX - mouseX) / 100; // Adjust the sensitivity as needed
+    // Update the Earth's position based on mouse movement
+    earth.rotation.y += deltaX;
+    mouseX = event.clientX;
+}
 );
 
 // Add mouseup event listener to stop dragging
@@ -129,11 +129,11 @@ function animate() {
         moon.position.x = earth.position.x + moonX;
         moon.position.z = earth.position.z + moonZ;
 
-// MERCURY ROTATION
-var mercuryOrbitSpeed = 0.001;
-var mercuryAngle = Date.now() * mercuryOrbitSpeed;
-mercury.position.x = mercuryToSun * Math.cos(angle);
-mercury.position.z = mercuryToSun * Math.sin(angle);
+        // MERCURY ROTATION
+        var mercuryOrbitSpeed = 0.001;
+        var mercuryAngle = Date.now() * mercuryOrbitSpeed;
+        mercury.position.x = mercuryToSun * Math.cos(angle);
+        mercury.position.z = mercuryToSun * Math.sin(angle);
 
 
 
