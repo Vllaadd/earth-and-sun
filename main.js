@@ -17,7 +17,7 @@ var backgroundImageMaterial = new THREE.MeshBasicMaterial({
 })
 
 var backgroundImage = new THREE.Mesh(backgroundImageGeometry, backgroundImageMaterial);
-backgroundImage.position.z = -130;
+backgroundImage.position.z = -100;
 scene.add(backgroundImage);
 
 // SUN
