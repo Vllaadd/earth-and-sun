@@ -54,7 +54,6 @@ var distanceFromEarth = 10;
 moon.position.set(distanceFromEarth, 0, -10);
 scene.add(moon);
 
-
 // MERCURY 
 var mercuryGeometry = new THREE.SphereGeometry(4, 32, 32);
 var mercuryTexture = new THREE.TextureLoader().load('./files/mercury.jpeg');
@@ -67,8 +66,31 @@ var mercuryToSun = 20;
 mercury.position.set(mercuryToSun, 0, -2);
 scene.add(mercury);
 
+// VENUS
+var venusGeometry = new THREE.SphereGeometry(8, 32, 32);
+var venusTexture = new THREE.TextureLoader().load('./files/venus.jpeg');
+var venusMaterial = new THREE.MeshBasicMaterial({
+    map: venusTexture
+});
+var venus = new THREE.Mesh(venusGeometry, venusMaterial);
 
-camera.position.z = 40;
+var venusToSun = 40;
+venus.position.set(venusToSun, 0, -2);
+scene.add(venus);
+
+//MARS
+var marsGeometry = new THREE.SphereGeometry(8, 32, 32);
+var marsTexture = new THREE.TextureLoader().load('./files/mars.jpeg');
+var marsMaterial = new THREE.MeshBasicMaterial({
+    map: marsTexture
+});
+var mars = new THREE.Mesh(marsGeometry, marsMaterial);
+
+var marsToSun = 70;
+mars.position.set(marsToSun, 0, -2);
+scene.add(mars);
+
+camera.position.z = 50;
 
 // STOP THE ROTATION & ENABLE DRAGGING 
 var rotationEnabled = true;
@@ -115,7 +137,7 @@ function animate() {
         // Rotate the Sun
         sun.rotation.y += 0.01;
 
-        // Calculate and set the Moon's position
+        //EARTH ROTATION
         var earthOrbitSpeed = 0.001;
         var angle = Date.now() * earthOrbitSpeed;
         earth.position.x = distanceFromSun * Math.cos(angle);
@@ -130,12 +152,22 @@ function animate() {
         moon.position.z = earth.position.z + moonZ;
 
         // MERCURY ROTATION
-        var mercuryOrbitSpeed = 0.001;
+        var mercuryOrbitSpeed = 0.003;
         var mercuryAngle = Date.now() * mercuryOrbitSpeed;
-        mercury.position.x = mercuryToSun * Math.cos(angle);
-        mercury.position.z = mercuryToSun * Math.sin(angle);
+        mercury.position.x = mercuryToSun * Math.cos(mercuryAngle);
+        mercury.position.z = mercuryToSun * Math.sin(mercuryAngle);
 
+        //VENUS ROTATION
+        var venusOrbitSpeed = 0.0003;
+        var venusAngle = Date.now() * venusOrbitSpeed;
+        venus.position.x = venusToSun * Math.cos(venusAngle);
+        venus.position.z = venusToSun * Math.sin(venusAngle);
 
+        //MARS ROTATION
+        var marsOrbitSpeed = 0.0006;
+        var marsAngle = Date.now() * marsOrbitSpeed;
+        mars.position.x = marsToSun * Math.cos(marsAngle);
+        mars.position.z = marsToSun * Math.sin(marsAngle);
 
 
         // Render the scene
