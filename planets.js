@@ -35,32 +35,32 @@ const planets = [
         name: 'Jupiter',
         geometry: [4, 32, 32], 
         texture: './files/jupiter.jpeg', 
-        distanceToSun: 200, 
-        position: [200, 0, -2],
+        distanceToSun: 40, 
+        position: [60, 0, -2],
         orbitSpeed: 0.0004
     },
     {
         name: 'Saturn',
         geometry: [4, 32, 32], 
         texture: './files/saturn.jpeg', 
-        distanceToSun: 300, 
-        position: [300, 0, -2],
+        distanceToSun: 35, 
+        position: [20, 0, -2],
         orbitSpeed: 0.0003
     },
     {
         name: 'Uranus',
         geometry: [4, 32, 32], 
         texture: './files/uranus.jpeg',
-        distanceToSun: 400, 
-        position: [400, 0, -2],
+        distanceToSun: 45, 
+        position: [45, 0, -2],
         orbitSpeed: 0.0002
     },
     {
         name: 'Neptune',
         geometry: [4, 32, 32], 
         texture: './files/neptune.jpeg', 
-        neptunedistanceToSunToSun: 500, 
-        position: [500, 0, -2],
+        distanceToSun: 50, 
+        position: [15, 0, -2],
         orbitSpeed: 0.0001
     }
 ];
