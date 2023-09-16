@@ -31,16 +31,16 @@ sun.position.set(0, 0, 0)
 scene.add(sun);
 
 // EARTH 
-var earthGeometry = new THREE.SphereGeometry(4, 32, 32);
-var earthTexture = new THREE.TextureLoader().load('./files/earth.jpeg');
-var earthMaterial = new THREE.MeshBasicMaterial({
-    map: earthTexture
-});
-var earth = new THREE.Mesh(earthGeometry, earthMaterial);
+// var earthGeometry = new THREE.SphereGeometry(4, 32, 32);
+// var earthTexture = new THREE.TextureLoader().load('./files/earth.jpeg');
+// var earthMaterial = new THREE.MeshBasicMaterial({
+//     map: earthTexture
+// });
+// var earth = new THREE.Mesh(earthGeometry, earthMaterial);
 
-var distanceFromSun = 30;
-earth.position.set(distanceFromSun, 0, -10);
-scene.add(earth);
+// var distanceFromSun = 30;
+// earth.position.set(distanceFromSun, 0, -10);
+// scene.add(earth);
 
 //MOON 
 var moonGeometry = new THREE.SphereGeometry(2, 32, 32);
@@ -55,40 +55,53 @@ moon.position.set(distanceFromEarth, 0, -10);
 scene.add(moon);
 
 // MERCURY 
-var mercuryGeometry = new THREE.SphereGeometry(4, 32, 32);
-var mercuryTexture = new THREE.TextureLoader().load('./files/mercury.jpeg');
-var mercuryMaterial = new THREE.MeshBasicMaterial({
-    map: mercuryTexture
-});
-var mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
+// var mercuryGeometry = new THREE.SphereGeometry(4, 32, 32);
+// var mercuryTexture = new THREE.TextureLoader().load('./files/mercury.jpeg');
+// var mercuryMaterial = new THREE.MeshBasicMaterial({
+//     map: mercuryTexture
+// });
+// var mercury = new THREE.Mesh(mercuryGeometry, mercuryMaterial);
 
-var mercuryToSun = 20;
-mercury.position.set(mercuryToSun, 0, -2);
-scene.add(mercury);
+// var mercuryToSun = 20;
+// mercury.position.set(mercuryToSun, 0, -2);
+// scene.add(mercury);
 
 // VENUS
-var venusGeometry = new THREE.SphereGeometry(8, 32, 32);
-var venusTexture = new THREE.TextureLoader().load('./files/venus.jpeg');
-var venusMaterial = new THREE.MeshBasicMaterial({
-    map: venusTexture
-});
-var venus = new THREE.Mesh(venusGeometry, venusMaterial);
+// var venusGeometry = new THREE.SphereGeometry(8, 32, 32);
+// var venusTexture = new THREE.TextureLoader().load('./files/venus.jpeg');
+// var venusMaterial = new THREE.MeshBasicMaterial({
+//     map: venusTexture
+// });
+// var venus = new THREE.Mesh(venusGeometry, venusMaterial);
 
-var venusToSun = 40;
-venus.position.set(venusToSun, 0, -2);
-scene.add(venus);
+// var venusToSun = 40;
+// venus.position.set(venusToSun, 0, -2);
+// scene.add(venus);
 
 //MARS
-var marsGeometry = new THREE.SphereGeometry(8, 32, 32);
-var marsTexture = new THREE.TextureLoader().load('./files/mars.jpeg');
-var marsMaterial = new THREE.MeshBasicMaterial({
-    map: marsTexture
-});
-var mars = new THREE.Mesh(marsGeometry, marsMaterial);
+// var marsGeometry = new THREE.SphereGeometry(8, 32, 32);
+// var marsTexture = new THREE.TextureLoader().load('./files/mars.jpeg');
+// var marsMaterial = new THREE.MeshBasicMaterial({
+//     map: marsTexture
+// });
+// var mars = new THREE.Mesh(marsGeometry, marsMaterial);
 
-var marsToSun = 70;
-mars.position.set(marsToSun, 0, -2);
-scene.add(mars);
+// var marsToSun = 70;
+// mars.position.set(marsToSun, 0, -2);
+// scene.add(mars);
+
+function createPlanets(planets){
+    const geometry = new THREE.SphereGeometry(...planets.geometry);
+    const texture = new THREE.TextureLoader().load(planets.texture);
+    const material = new THREE.MeshBasicMaterial({ map: texture});
+    const planet = new THREE.Mesh(geometry, material);
+    planet.position.set(...planets.position);
+    scene.add(planet);
+}
+
+for(let i = 0; i < planets.length; i++){
+    createPlanets(planets[i]);
+}
 
 camera.position.z = 50;
 
@@ -137,12 +150,13 @@ function animate() {
         // Rotate the Sun
         sun.rotation.y += 0.01;
 
-        //EARTH ROTATION
+        // EARTH ROTATION
         var earthOrbitSpeed = 0.001;
         var angle = Date.now() * earthOrbitSpeed;
         earth.position.x = distanceFromSun * Math.cos(angle);
         earth.position.z = distanceFromSun * Math.sin(angle);
 
+        // MOON ROTATION
         var moonOrbitSpeed = 0.004;
         var moonAngle = Date.now() * moonOrbitSpeed;
         var moonX = distanceFromEarth * Math.cos(moonAngle);
