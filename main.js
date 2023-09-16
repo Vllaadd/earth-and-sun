@@ -100,6 +100,7 @@ function createPlanet(planetData){
     return planet;
 }
 
+
 const createdPlanets = planets.map(createPlanet);
 
 camera.position.z = 50;
