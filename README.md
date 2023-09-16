@@ -1,6 +1,6 @@
-# Earth Orbit Animation 
+# Solar System
 
-3D animation of Earth orbiting the Sun
+3D animation of planets orbiting the Sun
 
 ## Tech Stack 
 1. HTML
