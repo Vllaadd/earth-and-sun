@@ -90,18 +90,17 @@ scene.add(moon);
 // mars.position.set(marsToSun, 0, -2);
 // scene.add(mars);
 
-function createPlanets(planets){
-    const geometry = new THREE.SphereGeometry(...planets.geometry);
-    const texture = new THREE.TextureLoader().load(planets.texture);
+function createPlanet(planetData){
+    const geometry = new THREE.SphereGeometry(...planetData.geometry);
+    const texture = new THREE.TextureLoader().load(planetData.texture);
     const material = new THREE.MeshBasicMaterial({ map: texture});
     const planet = new THREE.Mesh(geometry, material);
-    planet.position.set(...planets.position);
+    planet.position.set(...planetData.position);
     scene.add(planet);
+    return planet;
 }
 
-for(let i = 0; i < planets.length; i++){
-    createPlanets(planets[i]);
-}
+const createdPlanets = planets.map(createPlanet);
 
 camera.position.z = 50;
 
@@ -118,15 +117,19 @@ document.body.addEventListener('keydown', function (event) {
 });
 
 renderer.domElement.addEventListener('mousemove', function (event) {
-    // if (!rotationEnabled) {
-    isDragging = true;
-    // Calculate the mouse movement
-    var deltaX = (event.clientX - mouseX) / 100; // Adjust the sensitivity as needed
-    // Update the Earth's position based on mouse movement
-    earth.rotation.y += deltaX;
-    mouseX = event.clientX;
-}
-);
+    if (!rotationEnabled) {
+        isDragging = true;
+        // Calculate the mouse movement
+        var deltaX = (event.clientX - mouseX) / 100; // Adjust the sensitivity as needed
+        
+        // Update the rotation of all planets based on mouse movement
+        createdPlanets.forEach((planet) => {
+            planet.rotation.y += deltaX;
+        });
+
+        mouseX = event.clientX;
+    }
+});
 
 // Add mouseup event listener to stop dragging
 renderer.domElement.addEventListener('mouseup', function () {
@@ -140,51 +143,24 @@ document.body.addEventListener('keyup', function (event) {
     }
 });
 
-function animate() {
+function rotatePlanets(){
+  createdPlanets.forEach((planet, i) => {
+    const planetData = planets[i];
+    const { orbitSpeed } = planetData;
+
+        const angle = Date.now() * orbitSpeed;
+        planet.rotation.y += 0.01;
+        planet.position.x = planetData.distanceToSun * Math.cos(angle);
+        planet.position.z = planetData.distanceToSun * Math.sin(angle);
+    })
+}
+
+function animate(){
     requestAnimationFrame(animate);
 
-    if (rotationEnabled) {
-        // Rotate the Earth
-        earth.rotation.y += 0.01;
+    if(rotationEnabled){
+        rotatePlanets();
 
-        // Rotate the Sun
-        sun.rotation.y += 0.01;
-
-        // EARTH ROTATION
-        var earthOrbitSpeed = 0.001;
-        var angle = Date.now() * earthOrbitSpeed;
-        earth.position.x = distanceFromSun * Math.cos(angle);
-        earth.position.z = distanceFromSun * Math.sin(angle);
-
-        // MOON ROTATION
-        var moonOrbitSpeed = 0.004;
-        var moonAngle = Date.now() * moonOrbitSpeed;
-        var moonX = distanceFromEarth * Math.cos(moonAngle);
-        var moonZ = distanceFromEarth * Math.sin(moonAngle);
-
-        moon.position.x = earth.position.x + moonX;
-        moon.position.z = earth.position.z + moonZ;
-
-        // MERCURY ROTATION
-        var mercuryOrbitSpeed = 0.003;
-        var mercuryAngle = Date.now() * mercuryOrbitSpeed;
-        mercury.position.x = mercuryToSun * Math.cos(mercuryAngle);
-        mercury.position.z = mercuryToSun * Math.sin(mercuryAngle);
-
-        //VENUS ROTATION
-        var venusOrbitSpeed = 0.0003;
-        var venusAngle = Date.now() * venusOrbitSpeed;
-        venus.position.x = venusToSun * Math.cos(venusAngle);
-        venus.position.z = venusToSun * Math.sin(venusAngle);
-
-        //MARS ROTATION
-        var marsOrbitSpeed = 0.0006;
-        var marsAngle = Date.now() * marsOrbitSpeed;
-        mars.position.x = marsToSun * Math.cos(marsAngle);
-        mars.position.z = marsToSun * Math.sin(marsAngle);
-
-
-        // Render the scene
         renderer.render(scene, camera);
     }
 }
