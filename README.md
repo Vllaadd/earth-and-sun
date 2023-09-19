@@ -19,6 +19,10 @@
   8. `mesh` is a collection of vertices, edges, and faces that collectively represent the surfacce and shape of a 3D object. 
   9. `THREE.SphereGeometry('...')`: this is a constructor to create a spherical geometry for the object (planet)
   10. `...planetData.geometry`: spread operator 
+  11. ` planet.addEventListener('click', () => {
+        handlePlanetClick(index);
+    })` : this method allows us to attach an event listener to a DOM element. It is used to listen for and respond to specific events (e.g. clicks, mouse movements, keyboard insput) that occur on that element. 
+    12. `createdPlanets.forEach((planet, i) => {`: this method iterates through the array and execute a function for each element in the array. 
 `
 
 
