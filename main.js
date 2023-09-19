@@ -40,49 +40,40 @@ function createPlanet(planetData){
     return planet;
 }
 
+// Array to keep track of the planets' rotation status 
+const planetRotationStatus = Array(planets.length).fill(true);
 
-const createdPlanets = planets.map(createPlanet);
+const createdPlanets = [];
+
+function handlePlanetClick(index){
+    // Toggle the rotation status of the clicked planet
+    planetRotationStatus[index] = !planetRotationStatus[index];
+
+    // If rotation is enabled for the clicked planet, stop its rotation and move it to the center, otherwise, resume rotaiton
+    const planet = createdPlanets[index];
+    if(!planetRotationStatus[index]){
+        planet.rotation.set(0, 0, 0); // Stop rotation
+        planet.position.set(0, 0, -30); // Move to the center 
+    } else {
+        // Calculate its original position based on the planet's data
+        const planetData = planets[index];
+        const angle = Date.now() * planetData.orbitSpeed;
+        planet.position.x = planetData.distanceToSun * Math.cos(angle);
+        planet.position.z = planetData.distanceToSun * Math.sin(angle);
+    }
+}
+
+// Add click event listeners to each planet 
+createdPlanets.forEach((planet, index) => {
+    planet.userData.index = index; // Store index for future refderence
+    planet.addEventListener('click', () => {
+        handlePlanetClick(index);
+    })
+});
+
 
 camera.position.z = 50;
 
-// STOP THE ROTATION & ENABLE DRAGGING 
-var rotationEnabled = true;
-var isDragging = false;
-var mouseX = 0;
-
-document.body.addEventListener('keydown', function (event) {
-    if (event.key === ' ') {
-        rotationEnabled = !rotationEnabled;
-        isDragging = !isDragging;
-    }
-});
-
-renderer.domElement.addEventListener('mousemove', function (event) {
-    if (!rotationEnabled) {
-        isDragging = true;
-        // Calculate the mouse movement
-        var deltaX = (event.clientX - mouseX) / 100; // Adjust the sensitivity as needed
-        
-        // Update the rotation of all planets based on mouse movement
-        createdPlanets.forEach((planet) => {
-            planet.rotation.y += deltaX;
-        });
-
-        mouseX = event.clientX;
-    }
-});
-
-// Add mouseup event listener to stop dragging
-renderer.domElement.addEventListener('mouseup', function () {
-    isDragging = false;
-});
-
-// Add keyup event listener to ensure dragging is stopped when space key is released
-document.body.addEventListener('keyup', function (event) {
-    if (event.key === ' ') {
-        isDragging = false;
-    }
-});
 
 function rotatePlanets(){
   createdPlanets.forEach((planet, i) => {
@@ -99,11 +90,9 @@ function rotatePlanets(){
 function animate(){
     requestAnimationFrame(animate);
 
-    if(rotationEnabled){
         rotatePlanets();
 
         renderer.render(scene, camera);
     }
-}
 
 animate();
