@@ -40,6 +40,11 @@ function createPlanet(planetData){
     return planet;
 }
 
+// iteration through the database 
+planets.forEach((planetData) => {
+    createPlanet(planetData);
+});
+
 // Array to keep track of the planets' rotation status 
 const planetRotationStatus = Array(planets.length).fill(true);
 
@@ -74,17 +79,25 @@ createdPlanets.forEach((planet, index) => {
 
 camera.position.z = 50;
 
+let time = 0; //initialize time 
 
 function rotatePlanets(){
   createdPlanets.forEach((planet, i) => {
     const planetData = planets[i];
     const { orbitSpeed } = planetData;
 
-        const angle = Date.now() * orbitSpeed;
-        planet.rotation.y += 0.01;
-        planet.position.x = planetData.distanceToSun * Math.cos(angle);
-        planet.position.z = planetData.distanceToSun * Math.sin(angle);
-    })
+    // Calculate angles for X and Z positions separately
+    const angleX = time * orbitSpeed;
+    const angleZ = time * orbitSpeed * 1.5; 
+
+    console.log(`angleX: ${angleX}, angleZ: ${angleZ}`);
+
+    planet.position.x = planetData.distanceToSun * Math.cos(angleX);
+    planet.position.z = planetData.distanceToSun * Math.sin(angleZ);
+
+    // Incrememnt time for smoother animation
+    time += 0.01;
+  });
 }
 
 function animate(){
