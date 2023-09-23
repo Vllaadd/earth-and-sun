@@ -96,7 +96,7 @@ function rotatePlanets(){
     planet.position.z = planetData.distanceToSun * Math.sin(angleZ);
 
     // Incrememnt time for smoother animation
-    time += 0.01;
+    // time += 0.01;
   });
 }
 
