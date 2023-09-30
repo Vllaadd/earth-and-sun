@@ -33,30 +33,44 @@ var sun = new THREE.Mesh(sunGeometry, sunMaterial);
 sun.position.set(0, 0, 0)
 scene.add(sun);
 
-// CREATE THE PLANETS 
-planets.forEach((planetData) => {
-    const geometry = new THREE.SphereGeometry(...planetData.geometry);
-    const texture = new THREE.TextureLoader().load(planetData.texture);
-    const material = new THREE.MeshBasicMaterial({ map: texture });
-    const planet = new THREE.Mesh(geometry, material);
-    planet.position.set(...planetData.position);
-    scene.add(planet);
-});
+// ROTATE THE SUN
+const sunOrbitRadius = 50;
+const sunOrbitSpeed = 0.0005;
 
-const createdPlanets = []; 
-
-//  PLANETS ROTATION 
-function rotatePlanets(){
-    planets.forEach(planetData => {
-        const { orbitSpeeed } = planetData;
-        const angle = Date.now() * orbitSpeeed;
-        const planet = createdPlanets.find(p => p.userData.name === planetData.name);
-
-        if(planet){
-            planet.rotation.y = angle;
-        }
-    });
+function rotateSun(){
+    const angle = Date.now() * sunOrbitSpeed;
+    sun.position.x = sunOrbitRadius * Math.cos(Date.now() * sunOrbitSpeed);
+    sun.rotation.y = angle;
+    sun.position.z = sunOrbitRadius * Math.sin(Date.now() * sunOrbitSpeed);
 }
+
+// INITIALIZATION OF THE CREATED PLANETS ARRAY
+// const createdPlanets = []; 
+
+// CREATE THE PLANETS 
+// planets.forEach((planetData) => {
+//     const geometry = new THREE.SphereGeometry(...planetData.geometry);
+//     const texture = new THREE.TextureLoader().load(planetData.texture);
+//     const material = new THREE.MeshBasicMaterial({ map: texture });
+//     co
+nst planet = new THREE.Mesh(geometry, material);
+//     planet.position.set(...planetData.position);
+//     planet.userData.name = planetData.name;
+//     scene.add(planet);
+//     createdPlanets.push(planet);
+// });
+
+// PLANETS ROTATION 
+// function rotatePlanets(){
+//     planets.forEach(planetData => {
+//         const { orbitSpeed } = planetData;
+//         const angle = Date.now() * orbitSpeed;
+//         const planet = createdPlanets.find(p => p.userData.name === planetData.name);
+//         if(planet){
+//             planet.rotation.y = angle;
+//         }
+//     });
+// }
 
 
 // Array to keep track of the planets' rotation status 
@@ -98,6 +112,7 @@ function animate(){
     requestAnimationFrame(animate);
 
         // rotatePlanets();
+        rotateSun();
 
         renderer.render(scene, camera);
     }

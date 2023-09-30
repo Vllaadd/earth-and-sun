@@ -8,7 +8,7 @@
 3. Three.js library 
 
 ## Technology Breakdown 
-  1. `THREE.Scener()` : A constructor provided by the Three.js library that creates a new scene object. 
+  1. `THREE.Scene()` : A constructor provided by the Three.js library that creates a new scene object. 
   A scene is kind of a stage where we place our 3D models, lights, and cameras before rendering them to the screen. 
   2. `THREE.PerspectiveCamera(...);`: This method is used to create a perspective camerar in the Three.js library. A camera defines how the 3D scene is viewed. 
   3. `THREE.WebGLRenderer();`: Renderer is responsible for rendering 3D scene onto a 2D canvas or the screen, making it visible to the user. 
