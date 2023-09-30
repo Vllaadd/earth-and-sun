@@ -33,44 +33,52 @@ var sun = new THREE.Mesh(sunGeometry, sunMaterial);
 sun.position.set(0, 0, 0)
 scene.add(sun);
 
-// ROTATE THE SUN
-const sunOrbitRadius = 50;
-const sunOrbitSpeed = 0.0005;
 
-function rotateSun(){
-    const angle = Date.now() * sunOrbitSpeed;
-    sun.position.x = sunOrbitRadius * Math.cos(Date.now() * sunOrbitSpeed);
-    sun.rotation.y = angle;
-    sun.position.z = sunOrbitRadius * Math.sin(Date.now() * sunOrbitSpeed);
+// CREATE AND ROTATE PLANETS 
+const createdPlanets = [];
+const animateFunctions = [];
+
+function createAndRotatePlanets(){
+planets.forEach((planetData) => {
+    const geometry = new THREE.SphereGeometry(...planetData.geometry);
+    const texture = new THREE.TextureLoader().load(planetData.texture);
+    const material = new THREE.MeshBasicMaterial({ map: texture });
+    const planet = new THREE.Mesh(geometry, material);
+    planet.position.set(...planetData.position);
+    planet.userData.name = planetData.name;
+    scene.add(planet);
+    createdPlanets.push(planet);
+
+    const planetOrbitSpeed = planetData.orbitSpeed;
+    const planetOrbitRadius = planetData.distanceToSun;
+
+    function rotatePlanet(){
+        const angle = Date.now() * planetOrbitSpeed;
+        planet.position.x = planetOrbitRadius * Math.cos(angle);
+        planet.rotation.y = angle;
+        planet.position.z = planetOrbitRadius * Math.sin(angle);
+    }
+
+    animateFunctions.push(rotatePlanet);
+
+    });
 }
 
-// INITIALIZATION OF THE CREATED PLANETS ARRAY
-// const createdPlanets = []; 
+function animate(){
+    requestAnimationFrame(animate);
 
-// CREATE THE PLANETS 
-// planets.forEach((planetData) => {
-//     const geometry = new THREE.SphereGeometry(...planetData.geometry);
-//     const texture = new THREE.TextureLoader().load(planetData.texture);
-//     const material = new THREE.MeshBasicMaterial({ map: texture });
-//     co
-nst planet = new THREE.Mesh(geometry, material);
-//     planet.position.set(...planetData.position);
-//     planet.userData.name = planetData.name;
-//     scene.add(planet);
-//     createdPlanets.push(planet);
-// });
+    animateFunctions.forEach((animationFunction) => {
+        animationFunction();
+    });
 
-// PLANETS ROTATION 
-// function rotatePlanets(){
-//     planets.forEach(planetData => {
-//         const { orbitSpeed } = planetData;
-//         const angle = Date.now() * orbitSpeed;
-//         const planet = createdPlanets.find(p => p.userData.name === planetData.name);
-//         if(planet){
-//             planet.rotation.y = angle;
-//         }
-//     });
-// }
+    renderer.render(scene, camera);
+}
+
+createAndRotatePlanets();
+
+animate();
+
+
 
 
 // Array to keep track of the planets' rotation status 
@@ -96,25 +104,4 @@ nst planet = new THREE.Mesh(geometry, material);
 //     }
 // }
 
-// Add click event listeners to each planet 
-// createdPlanets.forEach((planet, index) => {
-//     planet.userData.index = index; // Store index for future refderence
-//     planet.addEventListener('click', () => {
-//         handlePlanetClick(index);
-//     })
-// });
 
-
-// let time = 0; //initialize time 
-
-
-function animate(){
-    requestAnimationFrame(animate);
-
-        // rotatePlanets();
-        rotateSun();
-
-        renderer.render(scene, camera);
-    }
-
-animate();
