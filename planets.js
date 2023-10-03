@@ -6,7 +6,8 @@ const planets = [
         distanceToSun: 20,
         position: [20, 0, -2],
         orbitSpeed: 0.003,
-        orbitRadius: 20
+        orbitRadius: 20,
+        axialTilt: 0.034 
     },
     {
         name: 'Venus',
@@ -15,7 +16,8 @@ const planets = [
         distanceToSun: 30,
         position: [30, 0, -2],
         orbitSpeed: 0.002,
-        orbitRadius: 30
+        orbitRadius: 30,
+        axialTilt: 177.4
     },
     {
         name: 'Earth',
@@ -24,7 +26,8 @@ const planets = [
         distanceToSun: 40,
         position: [40, 0, -2],
         orbitSpeed: 0.001,
-        orbitRadius: 40
+        orbitRadius: 40,
+        axialTilt: 23.4
     },
     {
         name: 'Mars',
@@ -33,7 +36,8 @@ const planets = [
         distanceToSun: 50,
         position: [50, 0, -2],
         orbitSpeed: 0.0006,
-        orbitRadius: 50
+        orbitRadius: 50,
+        axialTilt: 25.2
     },
     {
         name: 'Jupiter',
@@ -42,7 +46,8 @@ const planets = [
         distanceToSun: 40, 
         position: [60, 0, -2],
         orbitSpeed: 0.0004,
-        orbitRadius: 60
+        orbitRadius: 60,
+        axialTilt: 3.1
     },
     {
         name: 'Saturn',
@@ -51,7 +56,8 @@ const planets = [
         distanceToSun: 35, 
         position: [20, 0, -2],
         orbitSpeed: 0.0003,
-        orbitRadius: 70
+        orbitRadius: 70,
+        axialTilt: 26.7
     },
     {
         name: 'Uranus',
@@ -60,7 +66,8 @@ const planets = [
         distanceToSun: 45, 
         position: [45, 0, -2],
         orbitSpeed: 0.0002,
-        orbitRadius: 80
+        orbitRadius: 80,
+        axialTilt: 97.8
     },
     {
         name: 'Neptune',
@@ -69,7 +76,8 @@ const planets = [
         distanceToSun: 50, 
         position: [15, 0, -2],
         orbitSpeed: 0.0001,
-        orbitRadius: 90
+        orbitRadius: 90,
+        axialTilt: 28.3
     }
 ];
 
