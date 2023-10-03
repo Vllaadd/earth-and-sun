@@ -54,9 +54,20 @@ planets.forEach((planetData) => {
 
     function rotatePlanet(){
         const angle = Date.now() * planetOrbitSpeed;
-        planet.position.x = planetOrbitRadius * Math.cos(angle);
-        planet.rotation.y = angle;
-        planet.position.z = planetOrbitRadius * Math.sin(angle);
+
+        // CONVERT DEGREES TO RADIANS 
+        const axialTilt = (planetData.axialTilt * Math.PI) / 180;
+        planet.rotation.x = axialTilt;
+
+        const x = planetOrbitRadius * Math.cos(angle);
+        const z = planetOrbitRadius * Math.sin(angle);
+
+        planet.position.set(x * Math.cos(axialTilt), 0, z * Math.cos(axialTilt));   
+
+        planet.rotation.y = -angle;
+
+        planet.position.x = x * Math.cos(axialTilt);
+        planet.position.z = z * Math.cos(axialTilt);
     }
 
     animateFunctions.push(rotatePlanet);
